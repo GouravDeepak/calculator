@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary: #3b82f6;
+    /* Brilliant Blue */
+    --primary-hover: #2563eb;
+    --bg-main: #0f172a;
+    --card-bg: #1e293b;
+    --card-border: #334155;
+    --input-bg: #0f172a;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --accent-success: #10b981;
+    --accent-error: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: var(--bg-main);
+    background-image:
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0, transparent 50%),
+        radial-gradient(at 50% 0%, rgba(16, 185, 129, 0.1) 0, transparent 50%);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    padding: 40px 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+    letter-spacing: -0.05em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.calculator-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* INPUTS & SELECTS - HIGH CONTRAST */
+input[type="number"],
+input[type="text"],
+select {
+    background: var(--input-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    outline: none;
+    width: 100%;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+/* CUSTOM DROPDOWN SYSTEM */
+.custom-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.dropdown-results {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 12px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    /* Hidden by default */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    animation: fadeInDown 0.2s ease-out;
+}
+
+.dropdown-item {
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: var(--primary);
+    color: white;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom Scrollbar for Dropdown */
+.dropdown-results::-webkit-scrollbar {
+    width: 8px;
+}
+
+.dropdown-results::-webkit-scrollbar-track {
+    background: var(--input-bg);
+    border-radius: 0 12px 12px 0;
+}
+
+.dropdown-results::-webkit-scrollbar-thumb {
+    background: var(--card-border);
+    border-radius: 10px;
+}
+
+.dropdown-results::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+.button-container {
+    grid-column: 1 / -1;
+    margin-top: 20px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+}
+
+button[type="submit"]:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
+}
+
+/* RESULTS SECTION */
+.results-grid {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid var(--card-border);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.result-item {
+    padding: 24px;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.result-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.result-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: white;
+}
+
+.net-salary-card {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+    border: 2px solid var(--primary);
+    padding: 40px;
+}
+
+.net-salary-card .result-value {
+    font-size: 3rem;
+    color: var(--accent-success);
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+@media (max-width: 640px) {
+    .calculator-card {
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+}

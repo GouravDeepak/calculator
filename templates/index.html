@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Salary Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Salary Calculator</h1>
+
+        <div class="calculator-card">
+            <form id="salaryForm" method="POST">
+                <div class="grid-form">
+                    <div class="input-group">
+                        <label for="country">Country (Searchable)</label>
+                        <div class="custom-dropdown">
+                            <input type="text" id="country" name="country" autocomplete="off"
+                                placeholder="Type country name..." value="{{ country if country is not none else '' }}">
+                            <div id="countryDropdown" class="dropdown-results"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="tax_rate">Tax Deduction (%)</label>
+                        <input type="number" name="tax_rate" id="tax_rate" step="0.1" placeholder="Enter %"
+                            value="{{ tax_rate if tax_rate is not none else '' }}">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="hours_per_day">Hours worked per day</label>
+                        <input type="number" name="hours_per_day" id="hours_per_day" step="any" required
+                            value="{{ hours_per_day if hours_per_day is not none else '8' }}">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="days_per_month">Days worked per month</label>
+                        <input type="number" name="days_per_month" id="days_per_month" required
+                            value="{{ days_per_month if days_per_month is not none else '20' }}">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="months_worked">Months worked</label>
+                        <input type="number" name="months_worked" id="months_worked" required
+                            value="{{ months_worked if months_worked is not none else '12' }}">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="regular_rate">Hourly Rate (€)</label>
+                        <input type="number" name="regular_rate" id="regular_rate" step="any" required
+                            placeholder="0.00" value="{{ regular_rate if regular_rate is not none else '' }}">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="overtime_hours">Monthly Overtime Hours</label>
+                        <input type="number" name="overtime_hours" id="overtime_hours" step="any"
+                            value="{{ overtime_hours if overtime_hours is not none else '0' }}">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="overtime_rate">Overtime Rate Multiplier</label>
+                        <input type="number" name="overtime_rate" id="overtime_rate" step="0.1" placeholder="e.g. 1.5"
+                            value="{{ overtime_rate if overtime_rate is not none else '1.5' }}">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="monthly_bonus">Monthly Bonus (€)</label>
+                        <input type="number" name="monthly_bonus" id="monthly_bonus" step="any"
+                            value="{{ monthly_bonus if monthly_bonus is not none else '0' }}">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="annual_bonus">Annual Bonus (€)</label>
+                        <input type="number" name="annual_bonus" id="annual_bonus" step="any"
+                            value="{{ annual_bonus if annual_bonus is not none else '0' }}">
+                    </div>
+
+                    <div class="button-container">
+                        <button type="submit">Calculate Salary</button>
+                    </div>
+                </div>
+            </form>
+
+            {% if error %}
+            <div style="color: #ef4444; text-align: center; margin-top: 20px; font-weight: 500;">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            {% if net_salary is not none %}
+            <div class="results-grid">
+                <div class="result-item net-salary-card">
+                    <div class="result-label">Net Salary (After Tax)</div>
+                    <div class="result-value">€{{ "{:,.2f}".format(net_salary) }}</div>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Base Regular Salary</div>
+                    <div class="result-value">€{{ "{:,.2f}".format(regular_salary) }}</div>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Total Overtime</div>
+                    <div class="result-value">€{{ "{:,.2f}".format(overtime_salary) }}</div>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Total Bonuses</div>
+                    <div class="result-value">€{{ "{:,.2f}".format(total_monthly_bonus + total_annual_bonus) }}</div>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Gross Salary</div>
+                    <div class="result-value">€{{ "{:,.2f}".format(total_salary_before_tax) }}</div>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Tax Deduction</div>
+                    <div class="result-value" style="color: #ef4444;">-€{{ "{:,.2f}".format(tax_deduction) }}</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
